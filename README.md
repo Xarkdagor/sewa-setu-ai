@@ -1,3 +1,10 @@
+<img width="1131" height="881" alt="Screenshot_2026-09-28_11-28-22" src="https://github.com/user-attachments/assets/2cb93c57-dddc-4c23-bb67-bd94eb6076f5" />
+<img width="700" height="748" alt="Screenshot_2026-09-28_11-28-38" src="https://github.com/user-attachments/assets/6f4634e7-da12-4c10-be05-b244c080c461" />
+<img width="1110" height="513" alt="Screenshot_2026-09-28_11-28-50" src="https://github.com/user-attachments/assets/6fbe711f-7195-4e28-89b5-31ca55f6ec3a" />
+
+
+
+
 #  Sewa Setu — Automated Credential Verification Engine
 
 > **Gov-AI Identity Verification & Spatial Document Extraction Pipeline**  

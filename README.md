@@ -1,4 +1,4 @@
-# 🛡️ Sewa Setu — Automated Credential Verification Engine
+#  Sewa Setu — Automated Credential Verification Engine
 
 > **Gov-AI Identity Verification & Spatial Document Extraction Pipeline**  
 > *A fast, fair, and reliable identity assurance system designed for citizen governance portals.*
@@ -11,7 +11,7 @@
 
 ---
 
-## 📌 What is Sewa Setu Verification Engine?
+## What is Sewa Setu Verification Engine?
 
 In public governance platforms, citizens frequently upload photos or scanned copies of national credentials (e.g., **Aadhaar cards, PAN cards, Voter IDs, Driving Licenses**). These photos often suffer from:
 - Camera tilt and rotation skew from hand-held smartphones
@@ -28,7 +28,7 @@ Traditional portals rely on strict string matching or reject documents automatic
 
 ---
 
-## 🚀 Quickstart — Run in 3 Easy Steps
+## Quickstart — Run in 3 Easy Steps
 
 ### Step 1: Install Dependencies
 ```powershell
@@ -47,14 +47,14 @@ python server.py
 
 ---
 
-## 📂 Project Architecture
+## Project Architecture
 
 The codebase is organized into **three independent tiers** plus persistent storage:
 
 ```text
 SEWA-SETU-INNOVATION/
 │
-├── 🧠 ai_automation/          # Tier 1: Core AI & Document Processing
+├──  ai_automation/          # Tier 1: Core AI & Document Processing
 │   ├── preprocessor.py        # Photo deskewing, noise filtering, 300 DPI PDF rendering
 │   ├── extractor.py           # Spatial OCR tokenization & Indian document parsing
 │   ├── matcher.py             # RapidFuzz similarity scoring & classification tiers
@@ -62,20 +62,20 @@ SEWA-SETU-INNOVATION/
 │   ├── requirements.txt       # AI engine dependencies
 │   └── README.md              # AI engine usage guide
 │
-├── ⚙️ backend/                # Tier 2: FastAPI REST API & Storage
+├──  backend/                # Tier 2: FastAPI REST API & Storage
 │   ├── main.py                # Server routes (/api/verify, /api/records, /api/storage/stats)
 │   ├── storage.py             # SQLite3 persistent database & media file manager
 │   ├── requirements.txt       # Backend dependencies
 │   └── README.md              # Backend developer guide
 │
-├── 🎨 frontend/               # Tier 3: Modern Web Client
+├──  frontend/               # Tier 3: Modern Web Client
 │   ├── index.html             # Clean UI with 2-sided dropzones & Audit Vault
 │   ├── style.css              # Modern design system (Dark, Light, Sapphire themes)
 │   ├── app.js                 # 1-Click demos, live bounding boxes & records viewer
 │   ├── samples/               # 1-click test cards (Aadhaar & Citizen ID)
 │   └── README.md              # Frontend guide
 │
-├── 💾 storage/                # Tier 4: Persistent Data Storage
+├──  storage/                # Tier 4: Persistent Data Storage
 │   ├── database.sqlite        # SQLite3 verification history database
 │   ├── uploads/               # Raw uploaded front & back citizen documents
 │   ├── annotations/           # Highlighted documents with bounding boxes
@@ -89,7 +89,7 @@ SEWA-SETU-INNOVATION/
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
 | Feature | Description |
 | :--- | :--- |
@@ -103,7 +103,7 @@ SEWA-SETU-INNOVATION/
 
 ---
 
-## 🎯 Verification Results & Decision Tiers
+##  Verification Results & Decision Tiers
 
 | Result Tier | Match Score | What It Means | Action Taken |
 | :--- | :--- | :--- | :--- |
@@ -114,7 +114,7 @@ SEWA-SETU-INNOVATION/
 
 ---
 
-## 🌐 Core API Endpoints
+##  Core API Endpoints
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
@@ -127,7 +127,7 @@ SEWA-SETU-INNOVATION/
 
 ---
 
-## 🧪 Running Automated Tests
+##  Running Automated Tests
 
 Run the full pytest suite covering deskewing, fuzzy matching, PDF processing, and critical gating:
 
@@ -137,7 +137,7 @@ pytest -v test_engine.py
 
 ---
 
-## 📖 Additional Documentation
+##  Additional Documentation
 
 - **[DOCUMENTATION.md](file:///e:/SEWA-SETU-INNOVATION/DOCUMENTATION.md):** Complete technical guide, algorithms, database schema, and REST API specification.
 - **[ai_automation/README.md](file:///e:/SEWA-SETU-INNOVATION/ai_automation/README.md):** Standalone AI engine documentation and Python usage examples.

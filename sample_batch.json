@@ -1,0 +1,20 @@
+[
+  {
+    "document_path": "tests/output/test1_high_confidence.png",
+    "submitted": {
+      "name": "Jonathan Doe",
+      "dob": "1990-05-15",
+      "document_id": "ABCDE1234F",
+      "address": "123 Main Road, Apt 4B, Metro City 110001"
+    }
+  },
+  {
+    "document_path": "tests/output/test2_skewed_fuzzy.png",
+    "submitted": {
+      "name": "Johnny Doe",
+      "dob": "1990-05-15",
+      "document_id": "ABCDE1234F",
+      "address": "123 Main Road, Apt 4B"
+    }
+  }
+]

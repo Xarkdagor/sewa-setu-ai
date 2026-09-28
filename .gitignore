@@ -1,0 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest / Coverage caches
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local Outputs & Uploads
+custom_output/*
+!custom_output/.gitkeep
+uploads/*
+!uploads/.gitkeep
+tests/output/*
+!tests/output/.gitkeep
+
+# Persistent Verification Storage
+storage/*.sqlite
+storage/*.sqlite-journal
+storage/uploads/*
+!storage/uploads/.gitkeep
+storage/annotations/*
+!storage/annotations/.gitkeep
+storage/crops/*
+!storage/crops/.gitkeep
+
+# Environments & OS files
+.env
+.venv
+env/
+venv/
+*.log
+Thumbs.db
+.DS_Store

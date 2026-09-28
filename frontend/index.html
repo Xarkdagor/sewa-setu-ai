@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sewa Setu — ID Card Verification</title>
+  <meta name="description" content="Simple, fast, and automatic ID document check with fair review guarantee.">
+  
+  <!-- Modern Clean Fonts: Outfit (Headings), Inter (UI), JetBrains Mono (Numbers) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Modern Design System Stylesheet -->
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- Ambient Background Glows -->
+  <div class="ambient-glow glow-top-left"></div>
+  <div class="ambient-glow glow-bottom-right"></div>
+  <div class="ambient-glow glow-center"></div>
+
+  <!-- Header Navigation -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-logo">
+          <div class="logo-shield">
+            <span class="logo-icon">🛡️</span>
+            <div class="logo-ring"></div>
+          </div>
+        </div>
+        <div class="brand-text">
+          <div class="brand-badge-row">
+            <h1 class="brand-title">Sewa Setu</h1>
+            <span class="version-tag">ID Verifier</span>
+          </div>
+          <p class="brand-subtitle">Fast and fair identity card verification for citizens</p>
+        </div>
+      </div>
+      
+      <!-- View Switcher -->
+      <nav class="view-nav" aria-label="Main Navigation">
+        <div class="nav-slider-track">
+          <button type="button" class="nav-tab active" id="navLiveTab">
+            <span class="tab-icon">⚡</span>
+            <span>Check ID Now</span>
+          </button>
+          <button type="button" class="nav-tab" id="navRecordsTab">
+            <span class="tab-icon">🗄️</span>
+            <span>Past Records</span>
+            <span class="records-pill" id="recordCountBadge">0</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Status Badges & Theme Switcher -->
+      <div class="header-actions">
+        <!-- 3-Way Color Theme Switcher (Dark, Light, Sapphire) -->
+        <div class="theme-switcher-pill" title="Switch website color theme">
+          <button type="button" class="btn-theme-opt active" data-set-theme="dark" title="Dark Obsidian Theme">🌙 Dark</button>
+          <button type="button" class="btn-theme-opt" data-set-theme="light" title="Clean Light Theme">☀️ Light</button>
+          <button type="button" class="btn-theme-opt" data-set-theme="sapphire" title="Royal Sapphire Theme">💎 Sapphire</button>
+        </div>
+
+        <div class="status-pill" title="Database is connected and ready">
+          <span class="pulse-indicator"></span>
+          <span class="status-text">Ready</span>
+        </div>
+        <div class="policy-chip" title="If a photo is blurry, an officer checks it by hand. Never auto-rejected.">
+          <span class="chip-icon">⚖️</span>
+          <span>Fair Check Guarantee</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Application Body -->
+  <main class="main-layout">
+
+    <!-- =====================================================================
+         VIEW 1: Check ID Now (Live Verification)
+         ===================================================================== -->
+    <div class="view-container" id="liveVerifyView">
+      <div class="two-column-grid">
+
+        <!-- LEFT COLUMN: Document Upload & Form -->
+        <section class="card glass-card panel-input" aria-labelledby="headingUpload">
+          <div class="card-header">
+            <div class="header-icon-box">📤</div>
+            <div>
+              <h2 id="headingUpload" class="card-title">1. Upload ID Document</h2>
+              <p class="card-subtitle">Add your ID photo and enter details to compare</p>
+            </div>
+          </div>
+
+          <!-- Quick Sample Demos Bar -->
+          <div class="presets-section">
+            <span class="presets-label">⚡ Try a Sample Test:</span>
+            <div class="presets-actions">
+              <button type="button" class="btn-preset" id="presetLeelaBtn" title="Loads sample front & back Aadhaar images and data">
+                <span>🪪</span> Sample Aadhaar (2 Sides)
+              </button>
+              <button type="button" class="btn-preset" id="presetMockBtn" title="Loads sample single-sided ID image and data">
+                <span>💳</span> Sample Citizen ID (1 Side)
+              </button>
+              <button type="button" class="btn-preset btn-preset-clear" id="presetClearBtn" title="Clear all fields and photos">
+                <span>🧹</span> Clear All
+              </button>
+            </div>
+          </div>
+
+          <form id="verifyForm" class="verification-form">
+            <!-- Front & Back Upload Cards -->
+            <div class="upload-grid">
+              
+              <!-- Front Side Upload (Mandatory) -->
+              <div class="upload-box-wrapper">
+                <div class="box-label-row">
+                  <span class="box-label">📄 Front Side of ID</span>
+                  <span class="badge-mandatory">Required *</span>
+                </div>
+                <div class="dropzone" id="frontDropzone" tabindex="0" role="button" aria-label="Upload front side of ID card">
+                  <input type="file" id="frontFileInput" accept="image/*,.pdf" style="display:none;" required>
+                  <div class="dropzone-idle" id="frontDropContent">
+                    <div class="drop-icon-circle">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                      </svg>
+                    </div>
+                    <p class="drop-primary-text">Click or drop front photo</p>
+                    <span class="drop-formats">PNG, JPG, or PDF file</span>
+                  </div>
+                  <!-- File Active Preview -->
+                  <div class="dropzone-preview" id="frontPreview" style="display:none;">
+                    <img id="frontThumb" src="" alt="Front Photo Thumbnail" class="preview-thumbnail">
+                    <div class="preview-meta">
+                      <span class="preview-filename" id="frontFileName">front_photo.png</span>
+                      <span class="preview-tag">Front side loaded</span>
+                    </div>
+                    <button type="button" class="btn-icon-remove" id="removeFrontBtn" aria-label="Remove front photo" title="Remove photo">✕</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Back Side Upload (Optional) -->
+              <div class="upload-box-wrapper">
+                <div class="box-label-row">
+                  <span class="box-label">📑 Back Side of ID</span>
+                  <span class="badge-optional" title="Optional: Useful if address or parent's name is printed on the back">Optional</span>
+                </div>
+                <div class="dropzone" id="backDropzone" tabindex="0" role="button" aria-label="Upload back side of ID card">
+                  <input type="file" id="backFileInput" accept="image/*,.pdf" style="display:none;">
+                  <div class="dropzone-idle" id="backDropContent">
+                    <div class="drop-icon-circle">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="12" y1="18" x2="12" y2="12"></line>
+                        <line x1="9" y1="15" x2="15" y2="15"></line>
+                      </svg>
+                    </div>
+                    <p class="drop-primary-text">Click or drop back photo</p>
+                    <span class="drop-formats">Only if address is on back</span>
+                  </div>
+                  <!-- File Active Preview -->
+                  <div class="dropzone-preview" id="backPreview" style="display:none;">
+                    <img id="backThumb" src="" alt="Back Photo Thumbnail" class="preview-thumbnail">
+                    <div class="preview-meta">
+                      <span class="preview-filename" id="backFileName">back_photo.png</span>
+                      <span class="preview-tag">Back side loaded</span>
+                    </div>
+                    <button type="button" class="btn-icon-remove" id="removeBackBtn" aria-label="Remove back photo" title="Remove photo">✕</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Citizen Details Section -->
+            <div class="form-section-title">
+              <span>👤 2. Details to Verify</span>
+            </div>
+
+            <div class="input-field">
+              <label for="inputName">Full Name</label>
+              <div class="input-wrapper">
+                <span class="input-prefix">👤</span>
+                <input type="text" id="inputName" placeholder="e.g. Bokam Leeladhar or Jonathan Doe" autocomplete="off">
+              </div>
+            </div>
+
+            <div class="form-dual-row">
+              <div class="input-field">
+                <label for="inputDob">Date or Year of Birth</label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">📅</span>
+                  <input type="text" id="inputDob" placeholder="e.g. 2003 or 15/05/1990" autocomplete="off">
+                </div>
+              </div>
+
+              <div class="input-field">
+                <label for="inputGender">Gender</label>
+                <div class="input-wrapper">
+                  <span class="input-prefix">⚧️</span>
+                  <select id="inputGender">
+                    <option value="">Select (Optional)</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Transgender">Transgender</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="input-field">
+              <label for="inputId">ID Number</label>
+              <div class="input-wrapper">
+                <span class="input-prefix">🆔</span>
+                <input type="text" id="inputId" class="mono-input" placeholder="e.g. 5513 1404 1007 or ABCDE1234F" autocomplete="off">
+              </div>
+            </div>
+
+            <div class="input-field">
+              <label for="inputAddress">Address</label>
+              <div class="input-wrapper text-area-wrapper">
+                <span class="input-prefix prefix-top">📍</span>
+                <textarea id="inputAddress" rows="2" placeholder="e.g. House No, Village/Town, District, State, PIN Code"></textarea>
+              </div>
+            </div>
+
+            <!-- Auto-Straighten Switch -->
+            <div class="switch-row">
+              <div class="switch-info">
+                <span class="switch-title">Straighten crooked photos automatically</span>
+                <span class="switch-desc">Fixes tilted smartphone photos and removes background noise</span>
+              </div>
+              <label class="toggle-switch">
+                <input type="checkbox" id="checkDeskew" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <!-- Check Button -->
+            <button type="submit" class="btn-verify-primary" id="submitBtn">
+              <span class="btn-shine"></span>
+              <span class="btn-content">
+                <span class="btn-icon">🚀</span>
+                <span class="btn-label">Check Document & Save</span>
+              </span>
+            </button>
+          </form>
+        </section>
+
+        <!-- RIGHT COLUMN: Verification Results -->
+        <section class="card glass-card panel-results" id="resultsPanel" aria-labelledby="headingResults">
+          <div class="card-header">
+            <div class="header-icon-box box-accent">🔬</div>
+            <div>
+              <h2 id="headingResults" class="card-title">Verification Result</h2>
+              <p class="card-subtitle">Details found on card, match score, and saved snippets</p>
+            </div>
+          </div>
+
+          <!-- Empty State (Before Document Check) -->
+          <div class="empty-state-view" id="emptyState">
+            <div class="empty-visual">
+              <div class="empty-halo"></div>
+              <div class="empty-icon-card">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <circle cx="11" cy="14" r="3"></circle>
+                  <line x1="13.5" y1="16.5" x2="17" y2="20"></line>
+                </svg>
+              </div>
+            </div>
+            <h3 class="empty-title">No Document Checked Yet</h3>
+            <p class="empty-text">Add your ID photo on the left and click <strong>Check Document & Save</strong>, or click one of the <strong>Sample Tests</strong> above to see how it works.</p>
+            
+            <div class="feature-pills-row">
+              <div class="feature-tag">
+                <span class="tag-icon">🎯</span>
+                <span>Finds exact text on card</span>
+              </div>
+              <div class="feature-tag">
+                <span class="tag-icon">⚖️</span>
+                <span>Fair check (no auto-reject)</span>
+              </div>
+              <div class="feature-tag">
+                <span class="tag-icon">💾</span>
+                <span>Saved automatically</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loading State -->
+          <div class="loading-state-view" id="loadingState" style="display:none;">
+            <div class="scanner-anim">
+              <div class="scanner-laser"></div>
+              <div class="scanner-doc"></div>
+            </div>
+            <h3 class="loading-heading" id="loadingText">Checking your document...</h3>
+            <p class="loading-subtext">Reading text from the photo, straightening image tilt, and comparing details...</p>
+            <div class="loading-steps-pills">
+              <span class="step-pill active">1. Straightening Photo</span>
+              <span class="step-pill active">2. Reading Text</span>
+              <span class="step-pill active">3. Checking Match</span>
+            </div>
+          </div>
+
+          <!-- Verification Results Output -->
+          <div class="results-layout" id="resultsContent" style="display:none;">
+
+            <!-- Saved in History Pill -->
+            <div class="vault-stored-banner" id="storageRecordPill">
+              <div class="vault-info">
+                <span class="vault-icon">💾</span>
+                <span>Saved in Record History:</span>
+                <code class="record-id-code" id="savedRecordId">VERIF-XXXXXX</code>
+              </div>
+              <button type="button" class="btn-mini-action" id="btnCopyRecordId" title="Copy Record Number">
+                <span>📋</span> Copy Record ID
+              </button>
+            </div>
+
+            <!-- Verdict Card with Radial Meter -->
+            <div class="verdict-card" id="tierCard">
+              <div class="verdict-inner">
+                <div class="verdict-details">
+                  <div class="verdict-badge-row">
+                    <span class="tier-pill" id="tierBadge">HIGH MATCH</span>
+                    <span class="review-priority-pill" id="reviewPriorityPill" style="display:none;">⚠️ Manual Check</span>
+                  </div>
+                  <h3 class="verdict-title" id="tierTitle">All Details Match</h3>
+                  <p class="verdict-summary" id="tierDesc">The details on the document match the information entered.</p>
+                </div>
+
+                <!-- Radial Progress Ring Meter -->
+                <div class="score-radial-wrapper">
+                  <svg class="score-radial" viewBox="0 0 120 120">
+                    <circle class="score-circle-bg" cx="60" cy="60" r="50"></circle>
+                    <circle class="score-circle-progress" id="scoreCircleProgress" cx="60" cy="60" r="50"></circle>
+                  </svg>
+                  <div class="score-radial-label">
+                    <span class="score-number" id="scoreVal">98%</span>
+                    <span class="score-caption">MATCH</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Fair Check Assurance Banner -->
+              <div class="governance-policy-bar">
+                <span class="gov-icon">⚖️</span>
+                <span class="gov-text" id="policyNoticeText">
+                  Fair Check Promise: If a photo is blurry or dark, your document is sent to an officer for manual review. It is never automatically rejected.
+                </span>
+              </div>
+            </div>
+
+            <!-- Document Inspection Section (Color View) -->
+            <div class="audit-block">
+              <div class="block-title-row">
+                <div class="block-heading-group">
+                  <h3 class="block-title">Where Details Were Found on the Card</h3>
+                  <span class="block-subtitle">Colored boxes show the text detected on your photo</span>
+                </div>
+                <!-- Viewer Color View & Navigation Controls -->
+                <div class="viewer-actions-bar">
+                  <!-- Viewport Background Color Mode (Dark vs Light) -->
+                  <div class="viewer-bg-switcher" title="Change photo background color for better visibility">
+                    <button type="button" class="btn-view-bg active" id="btnBgDark" title="Dark background view">⬛ Dark</button>
+                    <button type="button" class="btn-view-bg" id="btnBgLight" title="Light background view">⬜ Light</button>
+                  </div>
+                  <!-- Zoom Controls -->
+                  <div class="zoom-controls">
+                    <button type="button" class="btn-zoom" id="btnZoomIn" title="Zoom in photo">🔍 +</button>
+                    <button type="button" class="btn-zoom" id="btnZoomOut" title="Zoom out photo">🔍 −</button>
+                    <button type="button" class="btn-zoom" id="btnZoomReset" title="Reset original size">⟲ Reset</button>
+                  </div>
+                  <!-- Front / Back Switch Tabs -->
+                  <div class="doc-side-tabs" id="docTabs" style="display:none;">
+                    <button type="button" class="side-tab active" id="tabFrontBtn">📄 Front Photo</button>
+                    <button type="button" class="side-tab" id="tabBackBtn">📑 Back Photo</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="doc-viewer-card">
+                <div class="viewer-viewport bg-viewport-dark" id="viewerViewport">
+                  <img id="docAnnotatedFront" src="" alt="Front Document with Highlight Boxes" class="viewer-image">
+                  <img id="docAnnotatedBack" src="" alt="Back Document with Highlight Boxes" class="viewer-image" style="display:none;">
+                </div>
+                <!-- Interactive Color Legend Bar -->
+                <div class="color-legend-bar">
+                  <span class="legend-tag tag-name" data-field="name" title="Click to view Name snippet"><span class="legend-dot dot-name"></span> Full Name (Orange)</span>
+                  <span class="legend-tag tag-dob" data-field="dob" title="Click to view Birth Date snippet"><span class="legend-dot dot-dob"></span> Birth Date (Green)</span>
+                  <span class="legend-tag tag-id" data-field="document_id" title="Click to view ID snippet"><span class="legend-dot dot-id"></span> ID Number (Blue)</span>
+                  <span class="legend-tag tag-gender" data-field="gender" title="Click to view Gender snippet"><span class="legend-dot dot-gender"></span> Gender (Pink)</span>
+                  <span class="legend-tag tag-addr" data-field="address" title="Click to view Address snippet"><span class="legend-dot dot-addr"></span> Address (Purple)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Field Snippets Grid -->
+            <div class="audit-block">
+              <div class="block-title-row">
+                <div class="block-heading-group">
+                  <h3 class="block-title">Field-by-Field Photo Snippets</h3>
+                  <span class="block-subtitle">Compare the actual snippet from the photo with what was entered</span>
+                </div>
+                <span class="count-pill" id="fieldCountBadge">5 Details Checked</span>
+              </div>
+              <div class="crop-cards-grid" id="cropGrid">
+                <!-- Dynamically injected field cards -->
+              </div>
+            </div>
+
+            <!-- Structured JSON Accordion -->
+            <div class="audit-block">
+              <details class="json-accordion">
+                <summary class="json-accordion-header">
+                  <div class="accordion-left">
+                    <span class="accordion-icon">📦</span>
+                    <span>View Technical Summary (JSON)</span>
+                  </div>
+                  <button type="button" class="btn-copy-json" id="copyJsonBtn">
+                    <span>📋</span> Copy Data
+                  </button>
+                </summary>
+                <div class="accordion-body">
+                  <pre class="json-viewer" id="jsonOutput"></pre>
+                </div>
+              </details>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- =====================================================================
+         VIEW 2: Past Records (Database History)
+         ===================================================================== -->
+    <div class="view-container" id="recordsView" style="display:none;">
+      
+      <!-- Metrics Overview Header -->
+      <div class="vault-hero-card glass-card">
+        <div class="vault-hero-content">
+          <div class="vault-hero-text">
+            <h2 class="vault-title">🗄️ Past Verification Records</h2>
+            <p class="vault-subtitle">View and search through past document checks, match scores, and saved photo snippets.</p>
+          </div>
+          <!-- 4 Analytics Counters -->
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-label">Total Checked</span>
+              <span class="metric-value" id="statTotalRecs">0</span>
+            </div>
+            <div class="metric-card metric-high">
+              <span class="metric-label">High Match</span>
+              <span class="metric-value" id="statHighRecs">0</span>
+            </div>
+            <div class="metric-card metric-med">
+              <span class="metric-label">Medium Match</span>
+              <span class="metric-value" id="statMedRecs">0</span>
+            </div>
+            <div class="metric-card metric-review">
+              <span class="metric-label">Needs Officer Review</span>
+              <span class="metric-value" id="statCritRecs">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search & Filter Toolbar -->
+      <div class="vault-toolbar glass-card">
+        <div class="search-input-group">
+          <span class="search-icon-symbol">🔍</span>
+          <input type="text" id="recordsSearchInput" placeholder="Search by name, ID number, or record number..." autocomplete="off">
+          <button type="button" class="btn-search-clear" id="btnSearchClear" style="display:none;" title="Clear search">✕</button>
+        </div>
+        <div class="filter-controls">
+          <div class="filter-select-group">
+            <label for="recordsTierFilter">Filter by Result:</label>
+            <select id="recordsTierFilter">
+              <option value="ALL">All Results</option>
+              <option value="HIGH">🟢 High Match</option>
+              <option value="MEDIUM">🟡 Medium Match</option>
+              <option value="LOW">🔵 Blurry / Needs Review</option>
+              <option value="CRITICAL_MISMATCH">🔴 Difference Found</option>
+            </select>
+          </div>
+          <button type="button" class="btn-refresh-vault" id="refreshRecordsBtn" title="Refresh records list">
+            <span class="refresh-icon">🔄</span>
+            <span>Refresh</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Records Table -->
+      <div class="vault-table-wrapper glass-card">
+        <table class="vault-table">
+          <thead>
+            <tr>
+              <th>Record ID</th>
+              <th>Date & Time</th>
+              <th>Citizen Name</th>
+              <th>ID Number</th>
+              <th>Result</th>
+              <th>Match Score</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="recordsTableBody">
+            <!-- Dynamically populated rows -->
+          </tbody>
+        </table>
+
+        <!-- No Records Found State -->
+        <div class="vault-empty-state" id="noRecordsMsg" style="display:none;">
+          <div class="vault-empty-icon">📭</div>
+          <h3>No Records Found</h3>
+          <p>No past checks match your search or filter.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Audit Details Modal -->
+  <div class="modal-overlay" id="auditModal" style="display:none;">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <span class="modal-icon">🔎</span>
+          <div>
+            <h3 class="modal-title" id="modalRecordTitle">Record Details</h3>
+            <span class="modal-subtitle" id="modalRecordSub">Applicant & Document Details</span>
+          </div>
+        </div>
+        <button type="button" class="btn-modal-close" id="btnModalClose" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Injected Audit Content -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-hub" id="toastHub"></div>
+
+  <!-- JavaScript Controller -->
+  <script src="/static/app.js"></script>
+</body>
+</html>
